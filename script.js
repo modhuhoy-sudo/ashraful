@@ -158,3 +158,36 @@ function splitText(selector) {
 
 splitText('header h1.explode-text');
 splitText('header p.explode-text');
+const cursorRing = document.querySelector('.cursor-ring');
+const youtubeIframes = document.querySelectorAll('iframe[src*="youtube.com"], iframe[src*="youtu.be"]');
+
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+function animate() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top  = ringY + 'px';
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+// YouTube iframe-এর উপর mouse গেলে ring লুকাও
+youtubeIframes.forEach(iframe => {
+    iframe.addEventListener('mouseenter', () => {
+        cursorRing.style.opacity = '0';
+    });
+
+    iframe.addEventListener('mouseleave', () => {
+        cursorRing.style.opacity = '1';
+    });
+});

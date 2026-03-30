@@ -453,4 +453,52 @@ footer#footer .social-icons a:hover {
   padding:4px 10px;
   border-radius:20px;
   font-size:12px;
+}.cursor-ring {
+    position: fixed;
+    width: 42px;
+    height: 42px;
+    border: 2.5px solid rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    mix-blend-mode: difference;     /* dark site-এ খুব সুন্দর */
+    
+    /* Neon Glow Effect */
+    box-shadow: 
+        0 0 8px #ffffff,
+        0 0 15px #ffffff,
+        0 0 30px rgba(255, 255, 255, 0.7),
+        0 0 45px rgba(180, 220, 255, 0.5);
+    
+    will-change: transform, box-shadow, width, height;
+    transition: 
+        width 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+        height 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+        box-shadow 0.4s ease;
+}
+
+/* Hover-এ আরও stylish + বড় + stronger glow */
+a:hover ~ .cursor-ring,
+button:hover ~ .cursor-ring,
+input:hover ~ .cursor-ring,
+textarea:hover ~ .cursor-ring,
+.cursor-ring-hover {
+    width: 62px;
+    height: 62px;
+    box-shadow: 
+        0 0 12px #ffffff,
+        0 0 25px #ffffff,
+        0 0 45px rgba(200, 230, 255, 0.9),
+        0 0 70px rgba(150, 200, 255, 0.6);
+}
+
+/* Optional: Pulse animation (খুব subtle) */
+@keyframes ringPulse {
+    0%, 100% { box-shadow: 0 0 8px #ffffff, 0 0 15px #ffffff, 0 0 30px rgba(255,255,255,0.7); }
+    50% { box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px rgba(255,255,255,0.9); }
+}
+
+.cursor-ring {
+    animation: ringPulse 4s infinite ease-in-out;
 }
