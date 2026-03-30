@@ -1,0 +1,442 @@
+/* ===== Global Styles ===== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: #111;
+    color: #fff;
+}
+
+/* ===== Header Section ===== */
+header {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+header .header-image img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    animation: bgZoom 25s ease-in-out infinite alternate;
+}
+
+@keyframes bgZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
+
+header .header-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+header .header-content {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    max-width: 900px;
+    padding: 20px;
+}
+
+/* ===== Header Text Animation ===== */
+header h1.fade-slide {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    letter-spacing: 4px;
+    font-weight: 900;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeSlideUp 1s forwards;
+    animation-delay: 0.3s;
+    position: relative;
+}
+
+header p.fade-slide {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    color: #ddd;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeSlideUp 1s forwards;
+    animation-delay: 0.6s;
+}
+
+header .btn.fade-slide {
+    animation: fadeSlideUp 1s forwards;
+    animation-delay: 0.9s;
+}
+
+/* Fade-slide keyframes */
+@keyframes fadeSlideUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Button Styling ===== */
+header .btn {
+    display: inline-block;
+    padding: 18px 50px; /* কিছু বড় ও spacious */
+    margin-top: 30px;   /* H1/P থেকে gap */
+    background: linear-gradient(135deg, #ff416c, #ff4b2b, #ffdc00);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    border-radius: 60px; /* আরও rounded */
+    text-decoration: none;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(255,65,108,0.4), 0 10px 30px rgba(255,215,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+header .btn:hover {
+    transform: translateY(-7px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(255,65,108,0.6), 0 15px 50px rgba(255,215,0,0.3);
+    background: linear-gradient(135deg, #ff4b2b, #ff416c, #ffd700);
+}
+
+/* ===== Video Portfolio ===== */
+#videoContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px 20px;
+}
+
+.video {
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+    border-radius: 15px;
+    padding: 15px;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.video:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255,65,108,0.3);
+}
+
+.video iframe {
+    width: 100%;
+    height: 315px;
+    border-radius: 10px;
+    border: none;
+}
+
+.video h3 {
+    margin: 15px 0 5px 0;
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+.video p {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.4;
+}
+
+/* ===== Rating Stars ===== */
+.rating {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.rating span {
+    font-size: 1.5rem;
+    color: #555;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.rating span.hover,
+.rating span.selected {
+    color: #ffe600;
+    transform: scale(1.2);
+}
+
+/* ===== Contact Section ===== */
+section#contact {
+    padding: 80px 20px;
+    text-align: center;
+    background: #1a1a1a;
+}
+
+section#contact h2 {
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+}
+
+section#contact p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    header h1.fade-slide { font-size: 3rem; }
+    header p.fade-slide { font-size: 1.3rem; }
+    .video iframe { height: 250px; }
+}
+
+@media (max-width: 480px) {
+    header h1.fade-slide { font-size: 2.2rem; }
+    header p.fade-slide { font-size: 1rem; }
+    .video iframe { height: 200px; }
+}/* ===== Portfolio Section Heading ===== */
+section#portfolio h2 {
+    position: relative;
+    z-index: 2;
+    margin-left: 50px;
+    font-size: 3rem;       /* বড় ও স্পষ্ট */
+    font-weight: 800;      /* মোটা ও প্রফেশনাল */
+    letter-spacing: 3px;   /* space between letters */
+    margin-bottom: 50px;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255,65,108,0.7), 0 0 20px rgba(255,65,108,0.5);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeSlideUp 1s forwards;
+    animation-delay: 0.3s;
+}
+
+/* Reuse fadeSlideUp keyframes from header */
+@keyframes fadeSlideUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Header Description Text ===== */
+header p.explode-text {
+    font-size: 10px;          /* Description একটু ছোট */
+    line-height: 2.5rem;      /* Proper spacing */
+    margin-top: 10px;         /* H1 থেকে gap */
+    text-align: center;
+}
+
+/* Header Letters Ure-Ute Animation */
+header h1.explode-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(-100px) rotate(-20deg);
+    animation: flyIn 1s forwards;
+    animation-delay: calc(0.05s * var(--i));
+    font-size: 5rem;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b, #ff3300);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(255,65,108,0.5), 0 0 30px rgba(255,215,0,0.3);
+}
+
+header p.explode-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: flyIn 1s forwards;
+    animation-delay: calc(0.05s * var(--i));
+    color: #f5f5f5;
+    text-shadow: 0 0 5px rgba(245,245,245,0.4);
+    font-size: 2rem;
+    line-height: 2.5rem;
+}
+
+/* Keyframes */
+@keyframes flyIn {
+    0% { opacity: 0; transform: translateY(50px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(10deg); opacity: 1; }
+    100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+/* Footer Styles */
+footer#footer {
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 2;
+    border-top: 2px solid #ff416c;
+}
+
+footer#footer .footer-content p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    color: #ccc;
+}
+
+footer#footer .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+footer#footer .social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: #222;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(255,65,108,0.2);
+}
+
+footer#footer .social-icons a:hover {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b, #ffd700);
+    color: #fff;
+    transform: scale(1.2) rotate(5deg);
+    box-shadow: 0 6px 25px rgba(255,65,108,0.5), 0 10px 40px rgba(255,215,0,0.3);
+}
+/* Hire Me Button */
+.hire-btn {
+    position: fixed;       /* ওয়েবসাইটে উপরে/fixed থাকবে */
+    top: 20px;             /* উপরের margin */
+    right: 30px;           /* ডান দিক থেকে distance */
+    padding: 15px 30px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(255,65,108,0.5);
+    transition: 0.3s, transform 0.3s, box-shadow 0.3s;
+    z-index: 9999;         /* সব উপরের উপরে থাকবে */
+}
+
+.hire-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255,65,108,0.6);
+}
+/* ===== Responsive Styles ===== */
+
+/* Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+    /* Header */
+    header h1.fade-slide,
+    header h1.explode-text span {
+        font-size: 3rem;
+    }
+
+    header p.fade-slide,
+    header p.explode-text span {
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+    }
+
+    header .btn,
+    .hire-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    /* Portfolio Heading */
+    section#portfolio h2 {
+        font-size: 2.2rem;
+        margin-left: 20px;
+        margin-bottom: 40px;
+    }
+
+    /* Videos */
+    .video iframe {
+        height: 250px;
+    }
+
+    .video h3 {
+        font-size: 1.1rem;
+    }
+
+    .video p {
+        font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer#footer .social-icons a {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+/* Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    /* Header */
+    header h1.fade-slide,
+    header h1.explode-text span {
+        font-size: 2rem;
+    }
+
+    header p.fade-slide,
+    header p.explode-text span {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    header .btn,
+    .hire-btn {
+        padding: 10px 25px;
+        font-size: 0.9rem;
+    }
+
+    /* Portfolio Heading */
+    section#portfolio h2 {
+        font-size: 1.8rem;
+        margin-left: 15px;
+        margin-bottom: 30px;
+    }
+
+    /* Videos */
+    .video iframe {
+        height: 200px;
+    }
+
+    .video h3 {
+        font-size: 1rem;
+    }
+
+    .video p {
+        font-size: 0.85rem;
+    }
+
+    /* Footer */
+    footer#footer .social-icons {
+        gap: 15px;
+    }
+
+    footer#footer .social-icons a {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    /* Hire Button */
+    .hire-btn {
+        top: 15px;
+        right: 15px;
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+}
