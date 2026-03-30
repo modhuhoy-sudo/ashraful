@@ -1,0 +1,11 @@
+# Ignore system files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Ignore browser data / cache / local storage
+AppData/
+*.log
+
+# Ignore node_modules (if you have any)
+node_modules/
