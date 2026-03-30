@@ -19,21 +19,21 @@ fetch('videos.json')
       const videoDiv = document.createElement('div');
       videoDiv.classList.add('video');
 
-      videoDiv.innerHTML = `
-        <iframe id="video-${videoId}" src="${embedLink}" 
-          title="${video.title}" frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-        </iframe>
+     videoDiv.innerHTML = `
+  <iframe id="video-${videoId}" src="${embedLink}" 
+    title="${video.title}" frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>
 
-        <h3>${video.title}</h3>
-        <p>${video.description}</p>
+  <h3>${video.title}</h3>
+  <p>${video.description}</p>
 
-        <div class="video-stats">
-          <span>⭐ ${video.rating || '4.9'} Rating</span>
-          <span>👁 ${video.views || '3.4K'} Views</span>
-          <span>🔥 ${video.tag || 'Trending Edit'}</span>
-        </div>
-      `;
+  <div class="video-stats">
+    <span><i class="fas fa-star" style="color:gold;"></i> ${video.rating} Rating</span>
+    <span><i class="fas fa-eye" style="color:#555;"></i> ${video.views} Views</span>
+    
+  </div>
+`;
 
       container.appendChild(videoDiv);
     });
