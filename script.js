@@ -5,6 +5,8 @@ fetch('videos.json')
   .then(videos => {
     container.innerHTML = ''; // clear container
 
+    let currentPlayer = null; // এইটা রাখবে চলমান ভিডিও
+
     videos.forEach(video => {
       let videoId = '';
 
@@ -15,13 +17,12 @@ fetch('videos.json')
         videoId = video.videoLink.split('v=')[1].split('&')[0];
       }
 
-      const embedLink = `https://www.youtube.com/embed/${videoId}`;
+      const embedLink = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`; // enable JS API
       const videoDiv = document.createElement('div');
       videoDiv.classList.add('video');
 
-      // ভিডিও কার্ড HTML
       videoDiv.innerHTML = `
-        <iframe src="${embedLink}" 
+        <iframe id="video-${videoId}" src="${embedLink}" 
           title="${video.title}" frameborder="0" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
         </iframe>
@@ -30,8 +31,8 @@ fetch('videos.json')
         <p>${video.description}</p>
 
         <div class="video-stats">
-          <span>⭐ ${video.rating}K Rating</span>
-          <span>👁 ${video.views} Views</span>
+          <span>⭐ ${video.rating } Rating</span>
+          <span class="views"><i class="fas fa-eye"></i> ${video.views } Views</span>
         </div>
 
         <div class="rating">
@@ -45,7 +46,7 @@ fetch('videos.json')
 
       container.appendChild(videoDiv);
 
-      // Star rating logic
+      // --- Star rating logic ---
       const stars = videoDiv.querySelectorAll('.rating span');
       let selectedRating = localStorage.getItem(videoId) || 0;
 
@@ -57,14 +58,12 @@ fetch('videos.json')
         star.addEventListener('mouseover', () => {
           stars.forEach(s => s.classList.toggle('hover', s.dataset.value <= star.dataset.value));
         });
-
         star.addEventListener('mouseout', () => {
           stars.forEach(s => s.classList.remove('hover'));
           stars.forEach(s => {
             if(s.dataset.value <= selectedRating) s.classList.add('selected');
           });
         });
-
         star.addEventListener('click', () => {
           selectedRating = star.dataset.value;
           stars.forEach(s => s.classList.toggle('selected', s.dataset.value <= selectedRating));
@@ -72,9 +71,40 @@ fetch('videos.json')
         });
       });
     });
+
+    // --- Only one video plays at a time ---
+    const iframes = container.querySelectorAll('iframe');
+    let players = [];
+
+    // Load YouTube Iframe API
+    let tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = function() {
+      iframes.forEach((iframe) => {
+        const player = new YT.Player(iframe.id, {
+          events: {
+            'onStateChange': (event) => {
+              if(event.data === YT.PlayerState.PLAYING) {
+                // আগের চলমান ভিডিও pause করা
+                if(currentPlayer && currentPlayer !== player) {
+                  currentPlayer.pauseVideo();
+                }
+                currentPlayer = player;
+              }
+              // stop হলে currentPlayer reset
+              if(event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.PAUSED) {
+                if(currentPlayer === player) currentPlayer = null;
+              }
+            }
+          }
+        });
+        players.push(player);
+      });
+    }
   })
   .catch(err => console.error(err));
-
 
 // Explode Text Animation
 document.querySelectorAll('.explode-text').forEach(el=>{
