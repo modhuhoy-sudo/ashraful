@@ -3,69 +3,78 @@ const container = document.getElementById('videoContainer');
 fetch('videos.json')
   .then(res => res.json())
   .then(videos => {
-    container.innerHTML = '';
+    container.innerHTML = ''; // clear container
 
     videos.forEach(video => {
       let videoId = '';
 
+      // YouTube link থেকে videoId বের করা
       if(video.videoLink.includes('youtu.be/')) {
         videoId = video.videoLink.split('youtu.be/')[1].split('?')[0];
       } else if(video.videoLink.includes('youtube.com/watch?v=')) {
         videoId = video.videoLink.split('v=')[1].split('&')[0];
       }
 
-      const embedLink = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
-
+      const embedLink = `https://www.youtube.com/embed/${videoId}`;
       const videoDiv = document.createElement('div');
       videoDiv.classList.add('video');
 
-     videoDiv.innerHTML = `
-  <iframe id="video-${videoId}" src="${embedLink}" 
-    title="${video.title}" frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-  </iframe>
+      // ভিডিও কার্ড HTML
+      videoDiv.innerHTML = `
+        <iframe src="${embedLink}" 
+          title="${video.title}" frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
 
-  <h3>${video.title}</h3>
-  <p>${video.description}</p>
+        <h3>${video.title}</h3>
+        <p>${video.description}</p>
 
-  <div class="video-stats">
-    <span><i class="fas fa-star" style="color:gold;"></i> ${video.rating} Rating</span>
-    <span><i class="fas fa-eye" style="color:#555;"></i> ${video.views} Views</span>
-    
-  </div>
-`;
+        <div class="video-stats">
+          <span>⭐ ${video.rating}K Rating</span>
+          <span>👁 ${video.views} Views</span>
+        </div>
+
+        <div class="rating">
+          <span data-value="1">&#9733;</span>
+          <span data-value="2">&#9733;</span>
+          <span data-value="3">&#9733;</span>
+          <span data-value="4">&#9733;</span>
+          <span data-value="5">&#9733;</span>
+        </div>
+      `;
 
       container.appendChild(videoDiv);
-    });
 
-    // --- Only one video plays at a time ---
-    const iframes = container.querySelectorAll('iframe');
-    let players = [];
+      // Star rating logic
+      const stars = videoDiv.querySelectorAll('.rating span');
+      let selectedRating = localStorage.getItem(videoId) || 0;
 
-    // Load YouTube Iframe API
-    let tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
-
-    window.onYouTubeIframeAPIReady = function() {
-      iframes.forEach((iframe) => {
-        const player = new YT.Player(iframe.id, {
-          events: {
-            'onStateChange': (event) => {
-              if(event.data === YT.PlayerState.PLAYING) {
-                // Pause other videos
-                players.forEach(p => {
-                  if(p !== player) p.pauseVideo();
-                });
-              }
-            }
-          }
-        });
-        players.push(player);
+      stars.forEach(s => {
+        if(s.dataset.value <= selectedRating) s.classList.add('selected');
       });
-    }
+
+      stars.forEach(star => {
+        star.addEventListener('mouseover', () => {
+          stars.forEach(s => s.classList.toggle('hover', s.dataset.value <= star.dataset.value));
+        });
+
+        star.addEventListener('mouseout', () => {
+          stars.forEach(s => s.classList.remove('hover'));
+          stars.forEach(s => {
+            if(s.dataset.value <= selectedRating) s.classList.add('selected');
+          });
+        });
+
+        star.addEventListener('click', () => {
+          selectedRating = star.dataset.value;
+          stars.forEach(s => s.classList.toggle('selected', s.dataset.value <= selectedRating));
+          localStorage.setItem(videoId, selectedRating);
+        });
+      });
+    });
   })
   .catch(err => console.error(err));
+
 
 // Explode Text Animation
 document.querySelectorAll('.explode-text').forEach(el=>{
